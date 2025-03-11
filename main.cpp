@@ -6,47 +6,42 @@
 
 int main(int argc, char** argv){
 
-    // float kp = 0.1;
-    // float ki = 0.1;
-    // float kd = 0.1;
+    double kp = 0.3;
+    double ki = 0.3;
+    double kd = 0.2;
 
-    float kp = atof(argv[1]);
-    float ki = atof(argv[2]);
-    float kd = atof(argv[3]);
-
-    int target = atof(argv[4]);
-
-    std::cout << "kp: " << kp << std::endl;
-    std::cout << "ki: " << ki << std::endl;
-    std::cout << "kd: " << kd << std::endl;
-    std::cout << "target: " << target << std::endl;
+    double target = 1500;
+    double theta = 0;
     
     std::ofstream file;
     file.open("output.csv");
-    file << "Time,Theta,Velocity\n";
+    file << "Time,Theta,Velocity,Error\n";
+    
+    PID<double, double> pid(kp, ki, kd, target);
 
-    int theta = 0;
-    // int target = 100;
+    pid.setLimit(255);
+
+    double dt = 0.01;
+    double velocity = 255.0f; // from 0 to 255
     
-    float velocity = 1.0f; // from 0 to 255
+    double time = 0.0;
     
-    PID pid(kp, ki, kd, target);
-    float dt = 0.1;
-    
-    float time = 0.0;
-    int counter=0;
+    long int counter = 0;
     while(1){
         
         time += dt;
         velocity = pid.compute(theta, dt);
 
-        theta += (int)velocity*dt;
+        theta += (velocity*dt);
 
-        if(counter >= 1000){
+        LOG("Theta: " << theta << " Velocity: " << velocity << " Error: " << pid.getError());
+
+        file << time << "," << theta << "," << velocity << "," << pid.getError() <<"\n";
+        
+        if(counter > 10000){
             break;
         }
         counter++;
-        file << time << "," << theta << "," << velocity << "\n";
     }
 
     file.close();
