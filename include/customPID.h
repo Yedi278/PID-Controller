@@ -9,7 +9,8 @@
 #define LOG(x)
 #endif
 
-bool sign(float x){
+template <typename T>
+bool sign(T x){
     return x > 0;
 }
 
@@ -47,13 +48,14 @@ public:
         error_old = error_;
         
         pid_ = (proportional_ + integral_ + derivative_);
+
         if(pid_ > limit_){
             pid_ = limit_;
         }
         else if(pid_ < -limit_){
             pid_ = -limit_;
         }
-
+        
         if(pid_ < 30 && pid_ > -30){
             pid_ = 0;
         }
@@ -73,19 +75,23 @@ private:
     T ki_;      // Integral term
     T kd_;      // Derivative term
 
-    
+    // PID terms
     T proportional_;
     T integral_;
     T derivative_;
 
+    T pid_;
+
+    // PID value limit
     T limit_;
     
+    // Target value to reach
     U target_;
 
+    // Error terms
     T error_;
     T error_old;
 
-    T pid_;
 };
 
 #endif // PID_LIB_H
