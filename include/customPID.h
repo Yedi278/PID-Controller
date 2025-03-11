@@ -14,6 +14,11 @@ bool sign(T x){
     return x > 0;
 }
 
+/**
+ * @brief PID Controller class
+ * @tparam T Type of the PID controller tipically double
+ * @tparam U Type of the target value tipically double
+ */
 template <typename T, typename U>
 class PID{
 
@@ -55,7 +60,7 @@ public:
         else if(pid_ < -limit_){
             pid_ = -limit_;
         }
-        
+
         if(pid_ < 30 && pid_ > -30){
             pid_ = 0;
         }
