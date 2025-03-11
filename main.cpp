@@ -6,9 +6,9 @@
 
 int main(int argc, char** argv){
 
-    double kp = 0.3;
-    double ki = 0.3;
-    double kd = 0.2;
+    double kp = 0.2;
+    double ki = 0.2;
+    double kd = 0.6;
 
     double target = 1500;
     double theta = 0;
