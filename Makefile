@@ -8,7 +8,7 @@ RED=\033[0;31m
 GREEN=\033[0;32m
 NC=\033[0m
 
-default: clean main run plot_gnu
+default: clean main run plot
 
 all: clean main run plot_gnu
 
@@ -24,7 +24,7 @@ run: build/main
 	./build/main
 
 plot: run
-	python3 plotter.py
+	python3.12 plotter.py
 
 plot_gnu: run
 	gnuplot --persist test_all.gnuplot
