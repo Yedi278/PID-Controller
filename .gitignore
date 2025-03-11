@@ -1,3 +1,4 @@
 build/main
 build/main.o
 
+output.csv
